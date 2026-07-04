@@ -12,8 +12,18 @@ class SheetManager:
         sheet = gc.open_by_key(self.sheet_key)
         return sheet.worksheet(worksheet_name)
 
-    def json(self):
-        pass
+    def json(self, data_input):
+        res = {
+            'Employee': self.employee,
+            'Year': 'year',
+            'Month': 'month',
+            'Date': 'date',
+            'Weekday': 'weekday',
+            'Start': 'start',
+            'Finish': 'finish',
+            'Time': 'time',
+            'Comments': 'comments',
+        }
 
     def load_to_db(self):
         pass
