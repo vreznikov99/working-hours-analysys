@@ -6,24 +6,36 @@ class SheetManager:
         self.employee = employee
         self.service_account_path = service_account_path
         self.sheet_key = sheet_key
+        self.list_of_dicts = []
+
+    @staticmethod
+    def is_data_row(row):
+        return (
+                row[0] != '' and
+                not row[0].startswith("Date") and
+                not row[3].startswith("Total")
+        )
+
+    def get_list_of_dicts(self):
+        return self.list_of_dicts
 
     def extract_worksheet(self, worksheet_name):
         gc = gspread.service_account(filename=self.service_account_path)
         sheet = gc.open_by_key(self.sheet_key)
         return sheet.worksheet(worksheet_name)
 
-    def json(self, data_input):
+    def add_to_list_of_dicts(self, row):
         res = {
             'Employee': self.employee,
-            'Year': 'year',
-            'Month': 'month',
-            'Date': 'date',
-            'Weekday': 'weekday',
-            'Start': 'start',
-            'Finish': 'finish',
-            'Time': 'time',
-            'Comments': 'comments',
+            'Date': row[0],
+            'Month': row[5],
+            'Weekday': row[1],
+            'Start': row[2],
+            'Finish': row[3],
+            'Time': row[4],
+            'Comments': row[6],
         }
+        self.list_of_dicts.append(res)
 
     def load_to_db(self):
         pass
