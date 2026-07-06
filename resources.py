@@ -1,5 +1,5 @@
 import gspread
-
+import pandas as pd
 
 class SheetManager:
     def __init__(self, employee, service_account_path, sheet_key):
@@ -36,6 +36,9 @@ class SheetManager:
             'Comments': row[6],
         }
         self.list_of_dicts.append(res)
+
+    def create_data_frame(self):
+        return pd.DataFrame(self.list_of_dicts)
 
     def load_to_db(self):
         pass
