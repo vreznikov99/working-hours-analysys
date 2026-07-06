@@ -41,6 +41,7 @@ pip-delete-this-directory.txt
 ## DuckDB
 #*.wal
 #*.tmp/
+*.db
 
 # Unit test / coverage reports
 htmlcov/

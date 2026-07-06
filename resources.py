@@ -16,9 +16,6 @@ class SheetManager:
                 not row[3].startswith("Total")
         )
 
-    def get_list_of_dicts(self):
-        return self.list_of_dicts
-
     def extract_worksheet(self, worksheet_name):
         gc = gspread.service_account(filename=self.service_account_path)
         sheet = gc.open_by_key(self.sheet_key)
@@ -40,5 +37,13 @@ class SheetManager:
     def create_data_frame(self):
         return pd.DataFrame(self.list_of_dicts)
 
-    def load_to_db(self):
-        pass
+    def load_to_db(self, data_frame, db_connection):
+        df = data_frame
+        db_connection.sql('''
+            DROP TABLE IF EXISTS staging;
+            CREATE TABLE staging AS
+                SELECT *
+                FROM df;
+           
+            ''')
+ # INSERT INTO staging SELECT * FROM df;

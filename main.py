@@ -30,14 +30,8 @@ if __name__ == '__main__':
             sh_manager_val.add_to_list_of_dicts(row)
 
     df = sh_manager_val.create_data_frame()
+    sh_manager_val.load_to_db(df, con)
 
-    con.sql('''
-            DROP TABLE staging;
-            CREATE TABLE staging AS
-                SELECT *
-                FROM 'df';
-            INSERT INTO staging
-            SELECT *
-            FROM df;
-            ''')
+    print(con.sql("SELECT COUNT(*) FROM staging").df())
+
 
