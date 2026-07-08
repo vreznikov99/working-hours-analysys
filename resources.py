@@ -40,8 +40,8 @@ class SheetManager:
     def load_to_db(self, data_frame, db_connection):
         df = data_frame
         db_connection.sql('''
-            DROP TABLE IF EXISTS staging;
-            CREATE TABLE staging AS
+            DROP TABLE IF EXISTS raw_data;
+            CREATE TABLE raw_data AS
                 SELECT *
                 FROM df;
            

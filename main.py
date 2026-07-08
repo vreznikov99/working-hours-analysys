@@ -19,11 +19,11 @@ con = duckdb.connect(duck_db_path)
 
 if __name__ == '__main__':
     sh_manager_val = SheetManager('vreznikov', cred_path, sheets_details.HOURS_SHEET_ID)
-    worksheet_val = sh_manager_val.extract_worksheet('IsraPorts')
+    worksheet_hani_val = sh_manager_val.extract_worksheet('IsraPorts')
 
-    values = worksheet_val.get_all_values()
-    detailed_hours = values[14:]  # Detailed Hours
-
+    hani_values = worksheet_hani_val.get_all_values()
+    detailed_hours = hani_values[14:]  # Detailed Hours
+    
     # list of dicts
     for row in detailed_hours:
         if SheetManager.is_data_row(row):
@@ -32,6 +32,6 @@ if __name__ == '__main__':
     df = sh_manager_val.create_data_frame()
     sh_manager_val.load_to_db(df, con)
 
-    print(con.sql("SELECT COUNT(*) FROM staging").df())
+    print(con.sql("SELECT COUNT(*) FROM raw_data").df())
 
 
