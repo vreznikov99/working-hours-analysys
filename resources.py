@@ -4,6 +4,7 @@ import pandas as pd
 class SheetManager:
     def __init__(self, employee, service_account_path, sheet_key):
         self.employee = employee
+        self.list_of_used_worksheet = []
         self.service_account_path = service_account_path
         self.sheet_key = sheet_key
         self.list_of_dicts = []
@@ -19,11 +20,13 @@ class SheetManager:
     def extract_worksheet(self, worksheet_name):
         gc = gspread.service_account(filename=self.service_account_path)
         sheet = gc.open_by_key(self.sheet_key)
+        self.list_of_used_worksheet.append(worksheet_name)
         return sheet.worksheet(worksheet_name)
 
-    def add_to_list_of_dicts(self, row):
+    def add_to_list_of_dicts(self, row, project):
         res = {
             'Employee': self.employee,
+            'Project': project,
             'Date': row[0],
             'Month': row[5],
             'Weekday': row[1],
