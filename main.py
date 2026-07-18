@@ -7,12 +7,14 @@ import pandas as pd
 from resources import SheetManager
 from credentials import sheets_details
 
+# Base directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Service Account Credentials
 cred_folder = 'credentials'
 cred_file = 'service_account_creds.json'
-cred_path = os.path.join(cred_folder, cred_file)
+cred_path = os.path.join(BASE_DIR, cred_folder, cred_file)
 
-duck_db_path = os.path.join('db', 'duck.db')
+duck_db_path = os.path.join(BASE_DIR, 'db', 'duck.db')
 
 con = duckdb.connect(duck_db_path)
 
@@ -48,5 +50,7 @@ if __name__ == '__main__':
 
     df = sh_manager_val.create_data_frame()
     sh_manager_val.load_to_db(df, con)
+    print(duck_db_path)
+    print(cred_path)
 
     print(con.sql("SELECT COUNT(*) FROM raw_data").df())
